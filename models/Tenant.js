@@ -6,7 +6,7 @@ const tenantSchema = new mongoose.Schema({
     password: {type: String, required: true},
     phone: String,
     unitNumber: String,
-    assignedBy: {type: mongoose.Schema.Types.ObjectId, ref: "Admin"},
+    assignedBy: {type: mongoose.Schema.Types.ObjectId, ref: "Admin", required: false},
     createdAt: {type: Date, default: Date.now},
 });
 
