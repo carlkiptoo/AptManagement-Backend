@@ -8,10 +8,12 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
     try {
-        const {name, email, phone, unitNumber} = req.body;
+        const {name, idNumber, email, phone, houseType, unitNumber, price, passportImage} = req.body;
+        console.log("Incoming tenant registration:", req.body);
 
-        if (!name || !email || !phone || !unitNumber) {
-            return res.status(400).json({message: 'Name, email, phone and unit number required'});
+
+        if (!name || !email || !phone || !unitNumber || !houseType || !price || !passportImage) {
+            return res.status(400).json({message: 'Name, email, phone, house type, price and passport image required'});
         }
 
         const existingTenant = await Tenant.findOne({email});
@@ -25,9 +27,13 @@ router.post('/register', async (req, res) => {
 
         const newTenant = await Tenant.create({
             name,
+            idNumber,
             email,
             phone,
             unitNumber,
+            houseType,
+            price,
+            passportImage,
             password: hashedPassword,
         });
 
@@ -39,6 +45,16 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         console.error('Error creating tenant:', error);
         return res.status(500).json({message: 'Error creating tenant'});
+    }
+})
+
+router.get('/tenants', async (req, res) => {
+    try {
+        const tenants  = await Tenant.find().sort({createdAt: -1});
+        res.status(200).json({message: 'Tenants retrieved successfully', tenants: tenants});
+    } catch (error) {
+        console.error('Error retrieving tenants:', error);
+        res.status(500).json({message: 'Error retrieving tenants'});
     }
 })
 
