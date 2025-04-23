@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['tenant', 'admin'],
-        required: true
+        required: true,
+        default: 'tenant'
     },
     unitNumber: {
         type: String,
