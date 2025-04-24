@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../models/User.js";
+import Tenant from "../models/Tenant.js";
 import { hashPassword, comparePassword } from "../utils/hash.js";
 import { nanoid } from "nanoid";
 import { generateToken } from "../utils/utils.js";
@@ -57,7 +58,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Email and password required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await Tenant.findOne({ email: req.body.email.trim().toLowerCase() });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -66,7 +67,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await comparePassword(password, user.password);
 
     console.log('Stored hashed password', user.password)
-    console.log('Ismatch', password)
+    console.log('Ismatch', isMatch)
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
