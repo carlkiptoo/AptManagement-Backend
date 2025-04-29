@@ -12,8 +12,8 @@ router.post('/register', async (req, res) => {
         console.log("Incoming tenant registration:", req.body);
 
 
-        if (!name || !email || !phone || !unitNumber || !houseType || !price || !passportImage) {
-            return res.status(400).json({message: 'Name, email, phone, house type, price and passport image required'});
+        if (!name || !email || !phone || !unitNumber || !houseType || !price) {
+            return res.status(400).json({message: 'Name, email, phone, house type, unit number, price and passport image required'});
         }
 
         const existingTenant = await Tenant.findOne({email});
@@ -41,7 +41,10 @@ router.post('/register', async (req, res) => {
 
         await sendTenantCredentials(email, plainPassword, name);
 
-        return res.status(201).json({message: 'Tenant created successfully. Credentials successfuly sent'});
+        return res.status(201).json({
+            message: 'Tenant created successfully. Credentials successfuly sent',
+        tenant: newTenant
+    });
     } catch (error) {
         console.error('Error creating tenant:', error);
         return res.status(500).json({message: 'Error creating tenant'});
