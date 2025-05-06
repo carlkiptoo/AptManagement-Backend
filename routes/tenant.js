@@ -11,7 +11,6 @@ router.post('/register', async (req, res) => {
         const {name, idNumber, email, phone, houseType, unitNumber, price, passportImage} = req.body;
         console.log("Incoming tenant registration:", req.body);
 
-
         if (!name || !email || !phone || !unitNumber || !houseType || !price) {
             return res.status(400).json({message: 'Name, email, phone, house type, unit number, price and passport image required'});
         }

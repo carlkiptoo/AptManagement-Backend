@@ -7,6 +7,7 @@ import connectDB from './config/db.js';
 import authRoutes from "./routes/auth.js";
 import tenantRoutes from "./routes/tenant.js";
 import rentRoutes from "./routes/rent.js";
+import maintenanceRoutes from "./routes/maintenance.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/tenants", tenantRoutes);
 app.use("/api/rent", rentRoutes);
+app.use("/api/maintenance", maintenanceRoutes);
 
 
 const PORT = process.env.PORT || 5000;
