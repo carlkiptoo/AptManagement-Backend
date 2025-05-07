@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import MaintenanceRequest from "../models/MaintenanceRequest.js";
+import verifyToken from "../middleware/maintenanceAuth.js";
 
 const router = express.Router();
 
@@ -16,9 +17,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.post('/maintenance-requests', upload.single('image'), async (req, res) => {
+router.post('/maintenance-requests', verifyToken, upload.single('image'), async (req, res) => {
     try {
-        const {tenantId, description, priority, prefferedDate} = req.body;
+        const {description, priority, prefferedDate} = req.body;
+        const {tenantId} = req.user.userId;
 
         if (!tenantId || !description || !priority || !prefferedDate) {
             return res.status(400).json({message: 'Tenant ID, description, priority, preferred date, issue and image URL required'});
