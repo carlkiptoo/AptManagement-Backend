@@ -19,18 +19,20 @@ const upload = multer({storage});
 
 router.post('/maintenance-requests', verifyToken, upload.single('image'), async (req, res) => {
     try {
-        const {description, priority, prefferedDate} = req.body;
-        const {tenantId} = req.user.userId;
+        const {description, priority, preferredDate} = req.body;
+        const tenantId = req.user.userId;
+        console.log('req.user:', req.user);
 
-        if (!tenantId || !description || !priority || !prefferedDate) {
-            return res.status(400).json({message: 'Tenant ID, description, priority, preferred date, issue and image URL required'});
+
+        if (!tenantId || !description || !priority || !preferredDate) {
+            return res.status(400).json({message: 'Tenant ID, description, priority, preferred date required'});
         }
 
         const newRequest = await MaintenanceRequest.create({
             tenantId,
             description,
             priority,
-            preferredDate: prefferedDate,
+            preferredDate: preferredDate,
         });
 
         await newRequest.save();
