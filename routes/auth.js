@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
       password: hashed,
     });
 
-    //Send email with credentials to tenant
+    //Send email from utils(email service)
 
     res.status(201).json({
       message: "User registered successfully",

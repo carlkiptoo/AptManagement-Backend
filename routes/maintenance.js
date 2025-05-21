@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import MaintenanceRequest from "../models/MaintenanceRequest.js";
 import verifyToken from "../middleware/maintenanceAuth.js";
+import { getRequestsByTenant } from "../controllers/maintenanceController.js";
 
 const router = express.Router();
 
@@ -43,5 +44,7 @@ router.post('/maintenance-requests', verifyToken, upload.single('image'), async 
     }
 
 })
+
+router.get('/maintenance-requests', verifyToken, getRequestsByTenant);
 
 export default router;

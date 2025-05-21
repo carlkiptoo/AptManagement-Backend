@@ -9,6 +9,9 @@ import tenantRoutes from "./routes/tenant.js";
 import rentRoutes from "./routes/rent.js";
 import maintenanceRoutes from "./routes/maintenance.js";
 
+
+
+
 dotenv.config();
 
 connectDB();
@@ -22,6 +25,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tenants", tenantRoutes);
 app.use("/api/rent", rentRoutes);
 app.use("/api/maintenance", maintenanceRoutes);
+
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 
 const PORT = process.env.PORT || 5000;
